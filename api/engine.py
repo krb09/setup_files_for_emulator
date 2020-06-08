@@ -36,8 +36,10 @@ class Engine(object):
                                 )
 
         res_as_dict = resource.to_dict()
-        conn = pika.BlockingConnection(
-            pika.ConnectionParameters(host=self._host, port=self._port))
+
+        credentials = pika.PlainCredentials('krb09', 'yZtTe9FXyhXKxzKC')
+        connParam = pika.connection.ConnectionParameters(host='129.114.17.185', port=5672, credentials=credentials)
+        conn = pika.BlockingConnection(connParam)   
         chan = conn.channel()
 
         chan.basic_publish(body=json.dumps(res_as_dict),
@@ -50,9 +52,10 @@ class Engine(object):
     def assign_cfg(self):
 
         cfg_as_dict = {'engine_uid': self._uid}
-
-        conn = pika.BlockingConnection(
-            pika.ConnectionParameters(host=self._host, port=self._port))
+        
+        credentials = pika.PlainCredentials('krb09', 'yZtTe9FXyhXKxzKC')
+        connParam = pika.connection.ConnectionParameters(host='129.114.17.185', port=5672, credentials=credentials)
+        conn = pika.BlockingConnection(connParam)
         chan = conn.channel()
 
         chan.basic_publish(body=json.dumps(cfg_as_dict),
@@ -71,9 +74,10 @@ class Engine(object):
 
         wl_as_dict = workload.to_dict()
         wl_as_dict['submit_time'] = submit_at
-
-        conn = pika.BlockingConnection(
-            pika.ConnectionParameters(host=self._host, port=self._port))
+        
+        credentials = pika.PlainCredentials('krb09', 'yZtTe9FXyhXKxzKC')
+        connParam = pika.connection.ConnectionParameters(host='129.114.17.185', port=5672, credentials=credentials)
+        conn = pika.BlockingConnection(connParam)
         chan = conn.channel()
 
         chan.basic_publish(body=json.dumps(wl_as_dict),

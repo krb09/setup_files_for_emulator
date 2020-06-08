@@ -79,8 +79,9 @@ class WLMS(object):
 
     def _setup_msg_sys(self):
 
-        conn = pika.BlockingConnection(
-            pika.ConnectionParameters(host=self._host, port=self._port))
+        credentials = pika.PlainCredentials('krb09', 'yZtTe9FXyhXKxzKC') 
+        connParam = pika.connection.ConnectionParameters(host='129.114.17.185', port=5672, credentials=credentials)
+        conn = pika.BlockingConnection(connParam)
         chan = conn.channel()
 
         chan.exchange_declare(exchange=self._exchange, exchange_type='direct')
@@ -106,8 +107,9 @@ class WLMS(object):
 
         try:
 
-            conn = pika.BlockingConnection(
-                pika.ConnectionParameters(host=self._host, port=self._port))
+            credentials = pika.PlainCredentials('krb09', 'yZtTe9FXyhXKxzKC')
+            connParam = pika.connection.ConnectionParameters(host='129.114.17.185', port=5672, credentials=credentials)
+            conn = pika.BlockingConnection(connParam)
             chan = conn.channel()
 
             def create_schedule(s_mapping, t_mapping):
